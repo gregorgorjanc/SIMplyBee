@@ -1276,8 +1276,6 @@ getCasteId <- function(x, caste = "all", collapse = FALSE, simParamBee = NULL) {
 #'   vector with sex information
 #' @param simParamBee \code{\link[SIMplyBee]{SimParamBee}}, global simulation parameters
 #'
-#' @seealso \code{\link[SIMplyBee]{getCaste}}
-#'
 #' @return when \code{x} is \code{\link[AlphaSimR]{Pop-class}} for \code{caste != "all"}
 #'  or list for \code{caste == "all"} with sex nodes named by caste;
 #'    when \code{x} is \code{\link[SIMplyBee]{Colony-class}} return is a named list of
@@ -2869,7 +2867,7 @@ nCsdAlleles <- function(x, collapse = FALSE, simParamBee = NULL) {
 #'   with haplotypes of all the individuals
 #' @param simParamBee \code{\link[SIMplyBee]{SimParamBee}}, global simulation parameters
 #'
-#' @seealso \code{\link[SIMplyBee]{getIbdHaplo}} and \code{\link[AlphaSimR]{pullIbdHaplo}}
+#' @seealso \code{\link[AlphaSimR]{pullIbdHaplo}}
 #'
 #' @return matrix with haplotypes when \code{x} is \code{\link[SIMplyBee]{Colony-class}}
 #'   and list of matrices with haplotypes when \code{x} is
@@ -3124,7 +3122,7 @@ getDronesIbdHaplo <- function(x, nInd = NULL, chr = NULL, snpChip = NULL,
 #'   with haplotypes of all the individuals
 #' @param simParamBee \code{\link[SIMplyBee]{SimParamBee}}, global simulation parameters
 #'
-#' @seealso \code{\link[SIMplyBee]{getQtlHaplo}} and \code{\link[AlphaSimR]{pullQtlHaplo}} as well as
+#' @seealso \code{\link[SIMplyBee]{getQtlGeno}} and \code{\link[AlphaSimR]{pullQtlHaplo}} as well as
 #'   \code{vignette(topic = "QuantitativeGenetics", package = "SIMplyBee")}
 #'
 #' @return matrix with haplotypes when \code{x} is \code{\link[SIMplyBee]{Colony-class}}
@@ -3374,7 +3372,9 @@ getDronesQtlHaplo <- function(x, nInd = NULL,
 #'   with genotypes of all the individuals
 #' @param simParamBee \code{\link[SIMplyBee]{SimParamBee}}, global simulation parameters
 #'
-#' @seealso \code{\link[SIMplyBee]{getQtlGeno}} and \code{\link[AlphaSimR]{pullQtlGeno}} as well as
+#' @seealso \code{\link[SIMplyBee]{getQtlHaplo}},
+#'   \code{\link[AlphaSimR]{pullQtlGeno}}, and
+#'   \code{\link[SIMplyBee]{getPooledGeno}}, as well as
 #'   \code{vignette(topic = "QuantitativeGenetics", package = "SIMplyBee")}
 #'
 #' @return matrix with genotypes when \code{x} is \code{\link[SIMplyBee]{Colony-class}} and
@@ -3624,7 +3624,7 @@ getDronesQtlGeno <- function(x, nInd = NULL,
 #'   with haplotypes of all the individuals
 #' @param simParamBee \code{\link[SIMplyBee]{SimParamBee}}, global simulation parameters
 #'
-#' @seealso \code{\link[SIMplyBee]{getSegSiteHaplo}} and \code{\link[AlphaSimR]{pullSegSiteHaplo}}
+#' @seealso \code{\link[SIMplyBee]{getSegSiteGeno}} and \code{\link[AlphaSimR]{pullSegSiteHaplo}}
 #'
 #' @return matrix with haplotypes when \code{x} is \code{\link[SIMplyBee]{Colony-class}}
 #'   and list of matrices with haplotypes when \code{x} is
@@ -3866,7 +3866,9 @@ getDronesSegSiteHaplo <- function(x, nInd = NULL,
 #'   with genotypes of all the individuals
 #' @param simParamBee \code{\link[SIMplyBee]{SimParamBee}}, global simulation parameters
 #'
-#' @seealso \code{\link[SIMplyBee]{getSegSiteGeno}} and \code{\link[AlphaSimR]{pullSegSiteGeno}}
+#' @seealso \code{\link[SIMplyBee]{getSegSiteHaplo}},
+#'   \code{\link[AlphaSimR]{pullSegSiteGeno}}, and
+#'   \code{\link[SIMplyBee]{getPooledGeno}}
 #'
 #' @return matrix with genotypes when \code{x} is \code{\link[SIMplyBee]{Colony-class}} and
 #'   list of matrices with genotypes when \code{x} is
@@ -4106,7 +4108,7 @@ getDronesSegSiteGeno <- function(x, nInd = NULL,
 #'   with haplotypes of all the individuals
 #' @param simParamBee \code{\link[SIMplyBee]{SimParamBee}}, global simulation parameters
 #'
-#' @seealso \code{\link[SIMplyBee]{getSnpHaplo}} and \code{\link[AlphaSimR]{pullSnpHaplo}}
+#' @seealso \code{\link[SIMplyBee]{getSnpGeno}} and \code{\link[AlphaSimR]{pullSnpHaplo}}
 #'
 #' @return matrix with haplotypes when \code{x} is \code{\link[SIMplyBee]{Colony-class}}
 #'   and list of matrices with haplotypes when \code{x} is
@@ -4347,7 +4349,9 @@ getDronesSnpHaplo <- function(x, nInd = NULL,
 #'   with genotypes of all the individuals
 #' @param simParamBee \code{\link[SIMplyBee]{SimParamBee}}, global simulation parameters
 #'
-#' @seealso \code{\link[SIMplyBee]{getSnpGeno}} and \code{\link[AlphaSimR]{pullSnpGeno}}
+#' @seealso \code{\link[SIMplyBee]{getSnpHaplo}},
+#'  \code{\link[AlphaSimR]{pullSnpGeno}}, and
+#'  \code{\link[SIMplyBee]{getPooledGeno}}
 #'
 #' @return matrix with genotypes when \code{x} is \code{\link[SIMplyBee]{Colony-class}} and
 #'   list of matrices with genotypes when \code{x} is
@@ -4573,14 +4577,14 @@ getDronesSnpGeno <- function(x, nInd = NULL,
 #'   genotypes to mimic genotyping of a pool of colony members.
 #'
 #' @param x matrix, true genotypes with individuals in rows and sites in columns
-#' @param type character, "mean" for average genotype or "count" for the counts
-#'   of reference and alternative alleles
+#' @param type character, \code{"mean"} for average genotype (default) or
+#'   \code{"count"} for the counts of reference and alternative alleles
 #' @param sex character, vector of "F" and "M" to denote the sex of individuals
 #'   in \code{x}
 #'
 #' @return a numeric vector with average allele dosage when \code{type = "mean"}
-#'   and a two-row matrix with the counts of reference (1st row) and
-#'   alternative (2nd row) alleles
+#'   or a two-row matrix with the counts of reference (1st row) and
+#'   alternative (2nd row) alleles when \code{type = "count"}
 #'
 #' @examples
 #' founderGenomes <- quickHaplo(nInd = 3, nChr = 1, segSites = 50)
@@ -4632,10 +4636,18 @@ getDronesSnpGeno <- function(x, nInd = NULL,
 #'
 #' # As an exercise you could repeat the above with different numbers of workers!
 #'
+#' # How to get pooled genotypes of workers across multiple colonies?
+#' tmp <- getSegSiteGeno(x = apiary, caste = "workers")
+#' (tmp2 = lapply(X = tmp, FUN = getPooledGeno)) # as a list of one row matrices
+#' t(sapply(X = tmp, FUN = getPooledGeno)) # as one matrix - option A
+#' do.call(what = rbind, args = tmp2) # as one matrix - option B
 #' @export
-getPooledGeno <- function(x, type = NULL, sex = NULL) {
+getPooledGeno <- function(x, type = "mean", sex = NULL) {
   if (!is.matrix(x)) {
     stop("Argument x must be a matrix class object!")
+  }
+  if (is.null(type) | !(type %in% c("mean", "count"))) {
+    stop("Argument type must be specified as either mean or count!")
   }
   n <- nrow(x)
   if (is.null(sex)) {
@@ -4654,8 +4666,6 @@ getPooledGeno <- function(x, type = NULL, sex = NULL) {
   } else if (type == "count") {
     ret <- rbind(nPloids - ret, ret)
     rownames(ret) <- c("0", "1")
-  } else {
-    stop("Argument type must be mean or count!")
   }
   return(ret)
 }

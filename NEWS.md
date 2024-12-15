@@ -18,6 +18,8 @@ editor_options:
 -   TODO
 
 ## Backgrond/package/etc. work
+-   Improved default for getPooledGeno() and example for
+collecting pooled workers genotype accross colonies
 -   We now removed setMisc() and getMisc() because we now use the new AlphaSimR
 structure of the misc slot that is much easier to use.
 
