@@ -4686,9 +4686,16 @@ getPooledGeno <- function(x, type = "mean", sex = NULL) {
 #' @param sex character vector denoting sex for individuals with genotypes in
 #'   \code{x} - \code{"F"} for female and \code{"M"} for male
 #' @param alleleFreq numeric, vector of allele frequencies for the sites in
-#'   \code{x}; if \code{NULL}, then \code{\link[SIMplyBee]{calcBeeAlleleFreq}} is used
+#'   \code{x}; if \code{NULL}, then \code{\link[SIMplyBee]{calcBeeAlleleFreq}}
+#'   is used
+#' @param returnComponents logical, return GRM as well as the components used
+#'   to compute it (useful for GWAS by GBLUP)
 #'
-#' @return matrix of genomic relatedness coefficients
+#' @return if \code{returnComponents = FALSE} (default) return a matrix of
+#'   genomic relatedness coefficients; if \code{returnComponents = TRUE} return
+#'   a list with the GRM, centred genotype matrix, allele frequencies, and
+#'   scaling factor used to scale the crossproduct of centred genotype matrix
+#'   to get the GRM.
 #'
 #' @references Druet and Legarra (2020) Theoretical and empirical comparisons of
 #'   expected and realized relationships for the X-chromosome. Genetics
@@ -4714,12 +4721,12 @@ getPooledGeno <- function(x, type = "mean", sex = NULL) {
 #' GRM <- calcBeeGRMIbs(x = geno, sex = sex)
 #' # You can visualise this matrix with the function image() from the package 'Matrix'
 #'
-#' #Look at the diagonal at the relationship matrix
+#' # Look at the diagonal at the relationship matrix
 #' x <- diag(GRM)
 #' hist(x)
 #' summary(x)
 #'
-#' #Look at the off-diagonal at the relationship matrix
+#' # Look at the off-diagonal at the relationship matrix
 #' x <- GRM[lower.tri(x = GRM, diag = FALSE)]
 #' hist(x)
 #' summary(x)
@@ -4755,8 +4762,12 @@ getPooledGeno <- function(x, type = "mean", sex = NULL) {
 #' calcBeeGRMIbs(x = rbind(queenGeno, pooledGenoW), sex = c("F","F"))
 #' # You can now compare how this compare to relationships between the queen
 #' # individual workers!
+#'
+#' # Return components
+#' calcBeeGRMIbs(x = rbind(queenGeno, pooledGenoW), sex = c("F","F"),
+#'               returnComponents = TRUE)
 #' @export
-calcBeeGRMIbs <- function(x, sex, alleleFreq = NULL) {
+calcBeeGRMIbs <- function(x, sex, alleleFreq = NULL, returnComponents = FALSE) {
   if (!is.matrix(x)) {
     stop("Argument x must be a matrix class object!")
   }
@@ -4786,8 +4797,13 @@ calcBeeGRMIbs <- function(x, sex, alleleFreq = NULL) {
     #       This would overwrite x only once, at expense of doubling RAM
     x[, site] <- x[, site] - ploidy * alleleFreq[site]
   }
-  G <- tcrossprod(x) / (2 * sum(alleleFreq * (1 - alleleFreq)))
-  return(G)
+  scale <- 2 * sum(alleleFreq * (1 - alleleFreq))
+  G <- tcrossprod(x) / scale
+  if (returnComponents) {
+    return(list(G = G, x = x, alleleFreq = alleleFreq, scale = scale))
+  } else {
+    return(G)
+  }
 }
 
 #' @describeIn calcBeeGRMIbs Calculate allele frequencies from honeybee genotypes

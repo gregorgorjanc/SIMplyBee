@@ -18,8 +18,11 @@ editor_options:
 -   TODO
 
 ## Backgrond/package/etc. work
--   Improved default for getPooledGeno() and example for
-collecting pooled workers genotype accross colonies
+-   calcBeeGRMIbs() can now return centred genotype matrix, allele frequencies,
+and scale factor used to calculate the GRM
+-   Improved default for getPooledGeno() (to type="mean"") and added an example
+on how to collect pooled workers' genotype accross colonies (but pooling is
+done within a colony!)
 -   We now removed setMisc() and getMisc() because we now use the new AlphaSimR
 structure of the misc slot that is much easier to use.
 
