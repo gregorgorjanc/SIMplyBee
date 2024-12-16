@@ -15,16 +15,16 @@ editor_options:
 -   TODO
 
 ## Bug fixes
--   TODO
+-   editCsdLocus() works now also with just 2 alleles #591
 
 ## Backgrond/package/etc. work
 -   calcBeeGRMIbs() can now return centred genotype matrix, allele frequencies,
-and scale factor used to calculate the GRM
+and scale factor used to calculate the GRM #594
 -   Improved default for getPooledGeno() (to type="mean"") and added an example
 on how to collect pooled workers' genotype accross colonies (but pooling is
-done within a colony!)
+done within a colony!) #592
 -   We now removed setMisc() and getMisc() because we now use the new AlphaSimR
-structure of the misc slot that is much easier to use.
+structure of the misc slot that is much easier to use. #584
 
 # SIMplyBee version 0.4.1
 

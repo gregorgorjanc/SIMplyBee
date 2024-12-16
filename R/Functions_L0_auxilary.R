@@ -6348,6 +6348,16 @@ calcColonyAa <- function(x, FUN = mapCasteToColonyAa, simParamBee = NULL, ...) {
 #'   in \code{\link[SIMplyBee]{SimParamBee}}. The two csd alleles must be different to
 #'   ensure heterozygosity at the csd locus.
 #' @param simParamBee global simulation parameters.
+#' @examples
+#' founderGenomes <- quickHaplo(nInd = 4, nChr = 1, segSites = 10)
+#'
+#' SP <- SimParamBee$new(founderGenomes, nCsdAlleles = 2)
+#' tmp <- createVirginQueens(founderGenomes)
+#' getCsdAlleles(tmp)
+#'
+#' SP <- SimParamBee$new(founderGenomes, nCsdAlleles = 4)
+#' tmp <- createVirginQueens(founderGenomes)
+#' getCsdAlleles(tmp)
 #'
 #' @return Returns an object of \code{\link[AlphaSimR]{Pop-class}}
 editCsdLocus <- function(pop, alleles = NULL, simParamBee = NULL) {
@@ -6360,7 +6370,10 @@ editCsdLocus <- function(pop, alleles = NULL, simParamBee = NULL) {
     alleles <- expand.grid(as.data.frame(matrix(rep(0:1, length(csdSites)), nrow = 2, byrow = FALSE)))
     # Sample two different alleles (without replacement) for each individual
     nAlleles <- simParamBee$nCsdAlleles
-    alleles <- sapply(seq_len(pop@nInd), FUN = function(x) list(alleles[sample(nAlleles, size = 2, replace = F), ]))
+    alleles <- sapply(X = seq_len(pop@nInd),
+                      FUN = function(x) {
+                        list(alleles[sample(nAlleles, size = 2, replace = FALSE), , drop = FALSE])
+                      })
   }
 
   if (pop@nInd != length(alleles)) {
