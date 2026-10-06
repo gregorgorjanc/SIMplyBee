@@ -75,7 +75,7 @@ createMultiColony <- function(
           createColony(simParamBee = simParamBee, id = ids[colony])
         })
         simParamBee$updateLastColonyId(n = n)
-      } else {}
+      }
     }
   } else {
     if (!isPop(x)) {
