@@ -19,7 +19,7 @@ nHomBrood(x, simParamBee = NULL)
 \item{simParamBee}{\code{\link[SIMplyBee]{SimParamBee}}, global simulation parameters}
 }
 \value{
-Numeric brood proportions for \code{calcQueensPHomBrood()} and
+Numeric, proportion of homozygous brood for \code{calcQueensPHomBrood()} and
   \code{pHomBrood()}, or counts for \code{nHomBrood()}, named by colony ID
   when \code{x} is \code{\link[SIMplyBee]{MultiColony-class}}. An empty
   \code{\link[AlphaSimR]{Pop-class}} returns \code{numeric(0)}. Missing
