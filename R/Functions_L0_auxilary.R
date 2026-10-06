@@ -268,7 +268,7 @@ nVirginQueens <- function(x, simParamBee = NULL) {
 #' @seealso Demo in the introductory vignette
 #'   \code{vignette("Honeybee_biology", package="SIMplyBee")}
 #'
-#' @return Numeric brood proportions for \code{calcQueensPHomBrood()} and
+#' @return Numeric, proportion of homozygous brood for \code{calcQueensPHomBrood()} and
 #'   \code{pHomBrood()}, or counts for \code{nHomBrood()}, named by colony ID
 #'   when \code{x} is \code{\link[SIMplyBee]{MultiColony-class}}. An empty
 #'   \code{\link[AlphaSimR]{Pop-class}} returns \code{numeric(0)}. Missing
