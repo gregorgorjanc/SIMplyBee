@@ -74,8 +74,7 @@ editor_options:
     for empty populations. Inactive csd metadata also uses numeric missing
     values. `getId(NULL)` now returns `NA_character_`.
 
-- Spotted a couple of cases where `SimParamBee` was not passed to the
-    calling functions.
+- Fixed the inconsistent use of `simParamBee` in some functions.
 
 # SIMplyBee version 0.4.1
 
