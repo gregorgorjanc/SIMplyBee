@@ -5059,7 +5059,11 @@ getDronesPheno <- function(x, nInd = NULL, collapse = FALSE, simParamBee = NULL)
 #'
 #' @param x \code{\link[SIMplyBee]{Colony-class}} or \code{\link[SIMplyBee]{MultiColony-class}}
 #' @param FUN function, that calculates colony value from values of
-#'   colony members
+#'   colony members. Its first argument receives a single \code{\link[SIMplyBee]{Colony-class}},
+#'   passed by position, and can have any name (for example, \code{colony} or \code{x}).
+#'   For \code{\link[SIMplyBee]{MultiColony-class}} input,
+#'   the function is called separately for each colony and the results are combined by row.
+#'
 #' @param simParamBee \code{\link[SIMplyBee]{SimParamBee}}, global simulation parameters
 #' @param ... other arguments of \code{FUN}
 #'
@@ -5130,6 +5134,13 @@ getDronesPheno <- function(x, nInd = NULL, collapse = FALSE, simParamBee = NULL)
 #' calcColonyValue(colony)
 #' calcColonyValue(apiary)
 #'
+#' # Colony value - using a simple custom function
+#' countWorkers <- function(colony) {
+#'   matrix(nInd(colony@workers), nrow = 1,
+#'          dimnames = list(NULL, "nWorkers"))
+#' }
+#' calcColonyValue(colony, FUN = countWorkers)
+#' calcColonyValue(apiary, FUN = countWorkers)
 #' @export
 # TODO: Do we need to do anything to add GxE to colony values? #353
 #       https://github.com/HighlanderLab/SIMplyBee/issues/353
@@ -5146,14 +5157,14 @@ calcColonyValue <- function(x, FUN = NULL, simParamBee = NULL, ...) {
     stop("You must provide FUN or set it in the SimParamBee object!")
   }
   if (isColony(x)) {
-    ret <- FUN(x = x, ...)
+    ret <- FUN(x, ...)
   } else if (isMultiColony(x)) {
     nCol <- nColonies(x)
     # We could create a matrix output container here, BUT we don't know the output
     # dimension of FUN() so we create list and row bind the list nodes later
     ret <- vector(mode = "list", length = nCol)
     for (colony in seq_len(nCol)) {
-      ret[[colony]] <- FUN(x = x[[colony]], ...)
+      ret[[colony]] <- FUN(x[[colony]], ...)
     }
     ret <- do.call("rbind", ret)
     rownames(ret) <- getId(x)

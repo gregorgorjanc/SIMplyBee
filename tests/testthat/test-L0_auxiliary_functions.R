@@ -1893,3 +1893,43 @@ test_that("getId returns character IDs independently of queen IDs", {
   expect_identical(getId(colony), "1")
   expect_identical(getId(getVirginQueens(colony, simParamBee = SP)), "3")
 })
+
+# ---- calcColonyValue ----
+
+test_that("colony value callbacks receive individual colonies positionally", {
+  set.seed(47)
+  SP <- SimParamBee$new(
+    quickHaplo(nInd = 2, nChr = 1, segSites = 10),
+    csdChr = NULL
+  )
+  SP$nThreads <- 1L
+  apiary <- createMultiColony(n = 2, simParamBee = SP)
+  apiary[[1]] <- createColony(simParamBee = SP)
+  apiary[[2]] <- createColony(simParamBee = SP)
+  apiary[[1]]@location <- c(2, 0)
+  apiary[[2]]@location <- c(5, 0)
+
+  colony_callback <- function(colony, scale) {
+    expect_s4_class(colony, "Colony")
+    matrix(scale * colony@location[1], nrow = 1, dimnames = list(NULL, "value"))
+  }
+  x_callback <- function(x, scale) {
+    expect_s4_class(x, "Colony")
+    matrix(scale * x@location[1], nrow = 1, dimnames = list(NULL, "value"))
+  }
+
+  for (callback in list(colony_callback, x_callback)) {
+    SP$colonyValueFUN <- callback
+    for (explicit in c(TRUE, FALSE)) {
+      fun <- if (explicit) callback else NULL
+      expect_equal(
+        calcColonyValue(apiary[[1]], FUN = fun, scale = 3, simParamBee = SP),
+        matrix(6, dimnames = list(NULL, "value"))
+      )
+      expect_equal(
+        calcColonyValue(apiary, FUN = fun, scale = 3, simParamBee = SP),
+        matrix(c(6, 15), ncol = 1, dimnames = list(getId(apiary), "value"))
+      )
+    }
+  }
+})

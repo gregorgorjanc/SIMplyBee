@@ -10,6 +10,10 @@ editor_options:
 
 ## Major changes
 
+- `calcColonyValue()` now passes each Colony to the first argument of its
+    callback by position. Callbacks may name that argument `colony`, `x`, or
+    another name. This also applies to `SimParamBee$colonyValueFUN`.
+
 - Colony IDs are now character, consistently with AlphaSimR individual IDs.
     `getId()` returns character IDs, including for empty collections and missing
     entries, so `apiary[getId(apiary)]` selects by ID/name and not by position!
@@ -49,9 +53,8 @@ editor_options:
 - added functionality to map individual-level variance to colony-level variance and vice-versa
   with functions 'mapIndToColonyVar' and 'mapColonyToIndVar'
 
-- parallelised all the major functions (so they run on
-    simParamBee\$nThreads cores) with PSOCK system. Since the parallelisation setup within functions
-    takes additional time, we recommend using a single threads for a small number of colonies
+- Parallelised major colony operations with `future` and `future.apply`.
+    New vignette describes how to use parallelisation. This is an experimental feature!
 
 ## Other
 

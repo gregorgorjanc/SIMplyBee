@@ -214,11 +214,13 @@ SimParamBee <- R6Class(
     #'   in \code{\link[SIMplyBee]{calcColonyValue}} - see also \code{\link[SIMplyBee]{calcColonyPheno}}
     #'   and \code{\link[SIMplyBee]{calcColonyGv}}.
     #'
-    #'   This function should work with internals of others functions -
-    #'   therefore the function MUST be defined like \code{function(colony, arg
-    #'   = default) someCode }, that is, the first argument MUST be
-    #'   \code{colony} and any following arguments MUST have a default value.
-    #'   For flexibility you can add ... argument to pass on any other argument.
+    #'   The first argument receives a single \code{\link[SIMplyBee]{Colony-class}},
+    #'   passed by position; its name is unrestricted.
+    #'   For example, use \code{function(colony, arg = default) someCode }.
+    #'   For MultiColony input, \code{calcColonyValue} calls this function once
+    #'   per colony and combines the results by row.
+    #'   Additional arguments can have defaults or be supplied through
+    #'   \code{...} in \code{calcColonyValue}.
     #'   See \code{\link[SIMplyBee]{mapCasteToColonyValue}} for an example.
     #'
     #'   You can provide your own functions that satisfy your needs!
